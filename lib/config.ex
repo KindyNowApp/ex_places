@@ -6,6 +6,6 @@ defmodule ExPlaces.Config do
 
   def base_url, do: api_host <> "/maps/api/place"
 
-  def api_key, do: System.get_env("GOOGLE_MAPS_GEOCODE_API_KEY")
+  def api_key, do: System.get_env("GOOGLE_MAPS_PLACES_API_KEY")
 end
 
