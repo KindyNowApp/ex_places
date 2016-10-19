@@ -4,16 +4,19 @@ defmodule ExPlaces.Request do
   """
 
   alias __MODULE__
-  alias ExGeocode.Config
-  alias ExGeocode.ComponentFilters
-  alias ExGeocode.Response
 
-  defstruct input: nil
+  defstruct input: nil,
+    key: nil
 
   @type t :: %__MODULE__{}
 
   def places_autocomplete(input) do
-    %Request{input: input} |> places_autocomplete
+    # %Request{input: input} |> places_autocomplete
+    {:ok, input}
+  end
+
+  def places_autocomplete(%Request{} = request) do
+    {:ok, request}
   end
 
   @spec get(map) :: {atom, map}
