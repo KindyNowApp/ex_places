@@ -1,4 +1,4 @@
-defmodule ExNexmo.Mixfile do
+defmodule ExPlaces.Mixfile do
 
   use Mix.Project
 
