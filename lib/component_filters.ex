@@ -1,4 +1,4 @@
-defmodule ExGeocode.ComponentFilters do
+defmodule ExPlaces.ComponentFilters do
   @moduledoc """
   Component filters based off the Geocoding Component Filtering spec
   which can be found here: https://developers.google.com/maps/documentation/geocoding/intro#ComponentFiltering

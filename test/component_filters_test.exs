@@ -1,7 +1,7 @@
 defmodule ExPlaces.ComponentFiltersTest do
   use ExUnit.Case, async: false
 
-  alias ExGeocode.ComponentFilters
+  alias ExPlaces.ComponentFilters
 
   test "serialize component filters" do
     filters = %ComponentFilters{ route: "Test Street", country: "AU" }

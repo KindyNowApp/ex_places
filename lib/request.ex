@@ -6,6 +6,7 @@ defmodule ExPlaces.Request do
   alias __MODULE__
   alias ExPlaces.Config
   alias ExPlaces.Autocomplete
+  alias ExPlaces.ComponentFilters
 
   defstruct input: nil, # required
     types: nil, # geocode, address or establishment
@@ -27,6 +28,11 @@ defmodule ExPlaces.Request do
 
   def places_autocomplete(input) when is_bitstring(input) do
     %Request{input: input}
+    |> places_autocomplete
+  end
+
+  def places_autocomplete(input, %ComponentFilters{} = components) do
+    %Request{input: input, components: ComponentFilters.serialize(components)}
     |> places_autocomplete
   end
 

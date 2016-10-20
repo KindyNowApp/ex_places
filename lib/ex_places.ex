@@ -19,6 +19,7 @@ defmodule ExPlaces do
   """
 
   use Application
+  alias ExPlaces.ComponentFilters
   alias ExPlaces.Request
 
   def start(_,_) do
@@ -33,6 +34,11 @@ defmodule ExPlaces do
   @spec places_autocomplete(String.t) :: {atom, map}
   def places_autocomplete(input) do
     Request.places_autocomplete(input)
+  end
+
+  @spec places_autocomplete(String.t, ComponentFilters.t) :: {atom, map}
+  def places_autocomplete(input, component_filters) do
+    Request.places_autocomplete(input, component_filters)
   end
 
   def place_by_id(place_id) do
