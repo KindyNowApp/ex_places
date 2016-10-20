@@ -33,4 +33,8 @@ defmodule ExPlaces do
   def places_autocomplete(input) do
     Request.places_autocomplete(input)
   end
+
+  def place_by_id(place_id) do
+    Request.place_by_id(place_id)
+  end
 end

@@ -4,34 +4,48 @@ defmodule ExPlaces.Request do
   """
 
   alias __MODULE__
+  alias ExPlaces.Config
 
-  defstruct input: nil,
-    key: nil
+  defstruct input: nil, # required
+    types: nil, # geocode, address or establishment
+    offset: nil,
+    radius: nil,
+    language: nil,
+    components: nil,
+    key: nil # required
 
   @type t :: %__MODULE__{}
 
-  def places_autocomplete(input) do
-    # %Request{input: input} |> places_autocomplete
-    {:ok, input}
-  end
-
   def places_autocomplete(%Request{} = request) do
-    {:ok, request}
+    request
+    |> attach_api_key
+    |> Map.from_struct
+    |> Enum.filter(fn {_, v} -> v != nil end) #remove nil values
+    |> get("/autocomplete/json")
   end
 
-  @spec get(map) :: {atom, map}
-  def get(request) do
-    Config.base_url
+  def place_by_id(place_id) do
+
+  end
+
+  @spec get(map, String.t) :: {atom, map}
+  def get(request, path) do
+    Config.base_url <> path
     |> HTTPoison.get([], [params: request])
     |> parse_response
   end
 
   def parse_response({:ok, %HTTPoison.Response{body: body, status_code: 200}}) do
-    {:ok, Response.parse(body)}
+    # {:ok, Response.parse(body)}
+    {:ok, body}
   end
 
   def parse_response({:error, %HTTPoison.Error{id: _id, reason: reason }}) do
     {:error, reason}
+  end
+
+  def parse_response(response) do
+    response
   end
 
   @spec attach_api_key(Request.t) :: Request.t

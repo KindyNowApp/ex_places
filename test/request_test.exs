@@ -7,9 +7,13 @@ defmodule ExPlaces.RequestTest do
     bypass = Bypass.open
     Application.put_env :ex_places, :api_host, "http://localhost:#{bypass.port}"
 
-    {:ok, %{ bypass: bypass } }
+    {:ok, %{
+        bypass: bypass
+      }
+    }
   end
 
+  @tag :only
   test "Autocomplete place", %{bypass: bypass} do
     Bypass.expect bypass, fn conn ->
       assert "/maps/api/place/autocomplete/json" == conn.request_path
@@ -19,6 +23,6 @@ defmodule ExPlaces.RequestTest do
       Plug.Conn.resp(conn, 200, "")
     end
 
-    assert {:ok, _response} = Request.places_autocomplete("")
+    assert {:ok, _response} = Request.places_autocomplete(%Request{input: "123 Test Street"})
   end
 end
