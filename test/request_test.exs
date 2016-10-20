@@ -13,7 +13,6 @@ defmodule ExPlaces.RequestTest do
     }
   end
 
-  @tag :only
   test "Autocomplete place", %{bypass: bypass} do
     Bypass.expect bypass, fn conn ->
       assert "/maps/api/place/autocomplete/json" == conn.request_path
