@@ -19,6 +19,7 @@ defmodule ExPlaces do
   """
 
   use Application
+  alias ExPlaces.Request
 
   def start(_,_) do
     import Supervisor.Spec, warn: false

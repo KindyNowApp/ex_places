@@ -5,6 +5,7 @@ defmodule ExPlaces.Request do
 
   alias __MODULE__
   alias ExPlaces.Config
+  alias ExPlaces.Autocomplete
 
   defstruct input: nil, # required
     types: nil, # geocode, address or establishment
@@ -24,6 +25,11 @@ defmodule ExPlaces.Request do
     |> get("/autocomplete/json")
   end
 
+  def places_autocomplete(input) when is_bitstring(input) do
+    %Request{input: input}
+    |> places_autocomplete
+  end
+
   def place_by_id(place_id) do
 
   end
@@ -36,8 +42,7 @@ defmodule ExPlaces.Request do
   end
 
   def parse_response({:ok, %HTTPoison.Response{body: body, status_code: 200}}) do
-    # {:ok, Response.parse(body)}
-    {:ok, body}
+    {:ok, Autocomplete.parse(body)}
   end
 
   def parse_response({:error, %HTTPoison.Error{id: _id, reason: reason }}) do
