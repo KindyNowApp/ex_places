@@ -1,38 +1,38 @@
 defmodule ExPlaces.Autocomplete do
   @moduledoc """
+  A Google Maps Places request
   """
 
   alias __MODULE__
-  alias ExPlaces.Helper
-  alias ExPlaces.Prediction
-  import Poison, only: [decode: 1]
+  alias ExPlaces.ComponentFilters
+  alias ExPlaces.HTTP
 
-  defstruct predictions: [],
-    status: nil
+  defstruct input: nil, # required
+    types: nil, # geocode, address or establishment
+    offset: nil,
+    radius: nil,
+    language: nil,
+    components: nil
 
   @type t :: %__MODULE__{}
 
-  @doc """
-  """
-  @spec parse(String.t) :: map
-  def parse(autocomplete_response) do
-    response =
-      autocomplete_response
-      |> decode
-      |> atomise_keys
-
-    Autocomplete
-    |> struct(response)
-    |> parse_predictions
+  def places_autocomplete(%Autocomplete{} = request) do
+    request
+    |> Map.from_struct
+    |> HTTP.attach_api_key
+    |> Enum.filter(fn {_, v} -> v != nil end) #remove nil values
+    |> HTTP.get("/autocomplete/json")
   end
 
-  @spec atomise_keys({atom, map}) :: map
-  defp atomise_keys({:ok, response}) do
-    Helper.atomise_keys(response)
+  def places_autocomplete(input) when is_bitstring(input) do
+    %Autocomplete{input: input}
+    |> places_autocomplete
   end
 
-  @spec parse_predictions(Autocomplete.t) :: Autocomplete.t
-  defp parse_predictions(%Autocomplete{predictions: predictions} = autocomplete) do
-    %Autocomplete{autocomplete | predictions: Enum.map(predictions, &Prediction.parse/1)}
+  def places_autocomplete(input, %ComponentFilters{} = components) do
+    %Autocomplete{input: input, components: ComponentFilters.serialize(components)}
+    |> places_autocomplete
   end
+
 end
+
