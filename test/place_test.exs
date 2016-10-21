@@ -1,10 +1,11 @@
-defmodule ExPlaces.AutocompleteTest do
+defmodule ExPlaces.PlaceTest do
   use ExUnit.Case, async: false
 
-  alias ExPlaces.Autocomplete
+  alias ExPlaces.Place
 
   setup do
     bypass = Bypass.open
+
     Application.put_env :ex_places, :api_host, "http://localhost:#{bypass.port}"
 
     api_key = "test_key"
@@ -12,11 +13,8 @@ defmodule ExPlaces.AutocompleteTest do
 
     valid_response = """
     {
-      "predictions": [
-        {
-          "description": "Richmond, Victoria, 3121, Australia"
-        }
-      ],
+      "html_attributions": [],
+      "result": {},
       "status": "OK"
     }
     """
@@ -35,13 +33,13 @@ defmodule ExPlaces.AutocompleteTest do
     bypass: bypass
   } do
     Bypass.expect bypass, fn conn ->
-      assert "/maps/api/place/autocomplete/json" == conn.request_path
-      assert %{ "input" => "123 Test Street", "key" => api_key} == URI.decode_query(conn.query_string)
+      assert "/maps/api/place/details/json" == conn.request_path
+      assert %{ "placeid" => "test_id", "key" => api_key} == URI.decode_query(conn.query_string)
       assert "GET" == conn.method
 
       Plug.Conn.resp(conn, 200, valid_response)
     end
 
-    assert {:ok, _} = Autocomplete.places_autocomplete("123 Test Street")
+    assert {:ok, _} = Place.get_by_id("test_id")
   end
 end
