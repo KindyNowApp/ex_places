@@ -1,6 +1,6 @@
 defmodule ExPlaces.Helper do
-  @moduledoc """
-  """
+
+  @moduledoc false
 
   @doc """
   Converts map keys to underscored atoms.

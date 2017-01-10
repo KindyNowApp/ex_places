@@ -1,12 +1,9 @@
 defmodule ExPlaces.Place do
-  @moduledoc """
-  """
+
+  @moduledoc false # TODO
 
   alias __MODULE__
-  alias ExPlaces.Helper
   alias ExPlaces.HTTP
-
-  import Poison, only: [decode: 1]
 
   defstruct placeid: nil
 
@@ -24,4 +21,5 @@ defmodule ExPlaces.Place do
     %Place{placeid: place_id}
     |> get_by_id
   end
+
 end

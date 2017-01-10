@@ -1,4 +1,5 @@
 defmodule ExPlaces do
+
   @moduledoc """
   An Elixir API client for the Google Maps Places API
 
@@ -45,4 +46,5 @@ defmodule ExPlaces do
   def place_by_id(place_id) do
     Place.get_by_id(place_id)
   end
+
 end

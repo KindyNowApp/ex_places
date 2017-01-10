@@ -1,9 +1,8 @@
 defmodule ExPlaces.Prediction do
-  @moduledoc """
-  """
+
+  @moduledoc false # TODO
 
   alias __MODULE__
-  alias ExPlaces.Helper
 
   defstruct description: nil,
     id: nil,
@@ -20,4 +19,5 @@ defmodule ExPlaces.Prediction do
     Prediction
     |> struct(prediction_map)
   end
+
 end
