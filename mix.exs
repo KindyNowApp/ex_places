@@ -5,7 +5,7 @@ defmodule ExPlaces.Mixfile do
   def project do
     [
       app: :ex_places,
-      version: "0.1.0",
+      version: "0.1.1",
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
       deps: deps(),
@@ -23,7 +23,7 @@ defmodule ExPlaces.Mixfile do
   defp deps do
     [
       {:httpoison, "~> 0.8"},
-      {:poison, "~> 2.2 or ~> 3.1"},
+      {:poison, "~> 2.2 or ~> 3.0 or ~> 3.1"},
       {:mix_test_watch, "~> 0.2", only: :dev},
       {:excoveralls, "~> 0.5", only: :test},
       {:earmark, "~> 1.0", only: :dev},
