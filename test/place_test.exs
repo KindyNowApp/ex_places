@@ -50,12 +50,12 @@ defmodule ExPlaces.PlaceTest do
   } do
     Bypass.expect bypass, fn conn ->
       assert "/maps/api/place/nearbysearch/json" == conn.request_path
-      assert %{ "location" => "-37.821754,144.999571", "type" => "childcare", "keyword" => "goodstart", "key" => api_key} == URI.decode_query(conn.query_string)
+      assert %{ "location" => "-37.821754,144.999571", "type" => "childcare", "keyword" => "goodstart", "radius" => "1000", "key" => api_key} == URI.decode_query(conn.query_string)
       assert "GET" == conn.method
 
       Plug.Conn.resp(conn, 200, valid_response)
     end
 
-    assert {:ok, _} = Place.nearby_search("-37.821754,144.999571", "childcare", "goodstart")
+    assert {:ok, _} = Place.nearby_search("-37.821754,144.999571", "childcare", "goodstart", "1000")
   end
 end
