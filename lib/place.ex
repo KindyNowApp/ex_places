@@ -5,7 +5,7 @@ defmodule ExPlaces.Place do
   alias __MODULE__
   alias ExPlaces.HTTP
 
-  defstruct placeid: nil
+  defstruct placeid: nil, location: nil, type: nil, keyword: nil, radius: nil
 
   @type t :: %__MODULE__{}
 
@@ -20,6 +20,19 @@ defmodule ExPlaces.Place do
   def get_by_id(place_id) when is_bitstring(place_id) do
     %Place{placeid: place_id}
     |> get_by_id
+  end
+
+  def nearby_search(%Place{} = request) do
+    request
+    |> Map.from_struct
+    |> HTTP.attach_api_key
+    |> Enum.filter(fn {_, v} -> v != nil end)
+    |> HTTP.get("/nearbysearch/json")
+  end
+
+  def nearby_search(location, type, keyword, radius) do
+    %Place{location: location, type: type, keyword: keyword, radius: radius}
+    |> nearby_search
   end
 
 end

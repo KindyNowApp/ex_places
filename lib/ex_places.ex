@@ -47,4 +47,8 @@ defmodule ExPlaces do
     Place.get_by_id(place_id)
   end
 
+  def nearby_search(location, type, keyword, radius) do
+    Place.nearby_search(location, type, keyword, radius)
+  end
+
 end
